@@ -7,136 +7,35 @@ This file was written to describe the content and structure of the run_analysis.
 
 ---
 
-## run_analysis.R
+### run_analysis.R
 
 This file is the sole script for executing the data cleansing project. 
 
-### Section 1: Loading Data
+### Section 1: Loading Data and Assigning Column Names
+This code loads all of the data associated with the project from both the Test and Train folders. Data loaded include:
+* features.txt
+* x_train.txt
+* y_train.txt
+* subject_train.txt
+* activity_labels.txt
+* x_test.txt
+* y_test.txt
+* subject_test.txt
 
+After data is loaded the train and test sets are combined via rbind to create the target data set.
 
+### Section 2: Subset the Target Data for Mean and Standard Deviation Fields
+This code gets a list of the column names and then uses Regular Expressions to find the columns that include mean and stdev values. 
 
-Section Headings
-================
+The list of mean/stdev columns is then used to subset the target data into targetDataSubset for further processing. 
 
-There are two ways to do headers in Markdown.  
+### Section 3: Create the Tidy Data Set
+This code starts with taking the targetDataSubset and joining it to the Activity Type table.
 
-You can underline text to make the two top-level headers:
+After the join the code uses dplyr's group_by and summarise_each functions to create the aggregated table for all meanStdev values by Act_Type and Subject_ID.
 
-Header 1
-========
+### Section 4: Create Meaningful Column Names
+This code uses Regular Expressions to adjust the column names into more meaningful descriptors. The code loops through the column names and edits the string depending on if there was a match with an associated change. 
 
-Header 2
---------
-
-The number of `=` or `-` signs doesn't matter; you can get away with just one.  But using enough to underline the text makes your titles look better in plain text.
-
-You can also use hash marks for all six levels of HTML headers:
-
-# Header 1 #
-## Header 2 ##
-### Header 3 ###
-#### Header 4 ####
-##### Header 5 #####
-###### Header 6 ######
-
-The closing `#` characters are optional.  
-  
-
-Phrase Emphasis  
-================
-
-
-*This is italicized*, and so is _this_.  
-
-**This is bold**, and so is __this__.
-
-You can use ***italics and bold together*** if you ___have to___.
-
-
-
-Horizontal Rules
-================
-
-You can insert a horizontal rule by putting three or more hyphens on a line by themselves:
-
----
-
-
-Blockquotes
-===========
-
-Blockquotes are indented:
-
-> The syntax is based on the way email programs
-> usually do quotations. You don't need to hard-wrap
-> the paragraphs in your blockquotes, but it looks much nicer if you do.  Depends how lazy you feel.
-> Looks good!
-
-
-
-Lists
-=====
-
-A bulleted list:
-
-- You can use a minus sign for a bullet
-+ Or plus sign
-* Or an asterisk
-
-A numbered list:
-
-1. Numbered lists are easy
-2. Markdown keeps track of the numbers for you
-7. So this will be item 3.
-
-Links
-=====
-
-Here's an inline link to [Google](http://www.google.com/).
-
-You can write bare URLs or email addresses by enclosing them in angle brackets:
-
-> My web site is at <http://www.markdownpro.com>  
-> My email address is: <support@markdownpro.com>
-
-
-Images
-======
-
-Images are exactly like inline links, but they have an exclamation point in front of them:
-
-![Valid XHTML](http://w3.org/Icons/valid-xhtml10).
-
-The word in square brackets is the alt text, which gets displayed if the browser can't show the image.  Be sure to include meaningful alt text for blind users' screen-reader software.
-
-
-Special sections (Notes, Tips, etc.)
-===================================
-
-To make a special section, indent four spaces:
-
-    NOTE: This is some other cool stuff we can do with Markdown PRO! 
-	       Of course, it can be a paragraph inside a note.
-
-
-Use backticks to create a special formatted section inline. (The backtick key is in the upper left corner of most keyboards)
-
-This is `really` expensive item, lots of `$`.
-
-
-Tables
-====================
-
-
- First Header  | Second Header 
- ------------- | ------------- 
- Row1 Cell1    | Row1 Cell2    
- Row2 Cell1    | Row2 Cell2    
-
-
-* Outer pipes on tables are optional
-* Colon used for alignment (right versus left)
-
-Please visit <http://markdownpro.com/> for advanced usage of the markdown syntax and Markdown PRO! Enjoy!
-
-&copy; 2011 RADSense Software Inc. All rights Reserved. 
+### Section 5: Export the Tidy Averages Text File
+This code writes a text file to the working directory with the name "tidyAverages.txt". 
